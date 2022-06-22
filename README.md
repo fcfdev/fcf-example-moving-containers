@@ -2,7 +2,7 @@
 A case study of working with templates in the FCF framework
 
 
-<img src="https://fcf-framework.tk/files/Screenshot_20210830_051026-61b21fe4-6a67-412f-8192-72c2e664970e.png"></img>
+<img src="https://fcf-framework.tk/files/Peek%202022-06-22%2013-47-206ca69a-8d97-4ed2-bdd4-60077645a976.gif" style="max-height:300px"></img>
 
 # Recommendations
 It is recommended to use the latest version of FCF to run the example. As the framework is constantly evolving, the example can use the latest features.
