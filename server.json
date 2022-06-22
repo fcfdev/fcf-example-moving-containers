@@ -1,0 +1,159 @@
+{
+
+  // Server name
+  "serverName": "main",
+
+  // Main server name
+  "mainServer": "main",
+
+  // Server array
+  // If there is only one element in the array (main server), then the port is not listened on.
+  "servers": [
+    {
+      // Server name
+      "name": "main",
+      // Server address
+      "address": "127.0.0.1",
+      // Server port
+      "port": 3778
+    }
+  ],
+
+  // Number of the local server management port (int)
+  // If 0 is specified, then a random free port is used
+  "innerControlPort": 0,
+
+  // Prefix of the log file path (string)
+  "logFile": "log/server-log-",
+
+  // The logging level (enum:[err|wrn|log|trc])
+  "logLevel": "log",
+
+  // The life time of the log file of the server (days)
+  "logLifeTime": 30,
+
+  // User under which FCF processes are started. If the field is an empty string, then the process is executed from the current user.
+  "user":            "",
+
+  // User password. Used only for Windows systems
+  "password":        "",
+
+  // Length of the request queue
+  "listenQueue": 128,
+
+  // The value of keep-alive http requests
+  "keepAliveTimeout": 5,
+
+  // Maximum waiting time for receiving and sending a client packet (sec)
+  "clientSocketTimeout": 5,
+
+  // Maximum waiting time for receiving a request from the client (sec)
+  "maxRequestTimeout": 300,
+
+  // Maximum waiting time for receiving and sending a server packet (sec)
+  "serverSocketTimeout": 5,
+
+  // Maximum time to wait for a request to be sent from the server (sec)
+  "maxResponseTimeout": 300,
+
+  // Maximum time to wait for a child process to start (sec)
+  "startTimeout": 600,
+
+  // Maximum waiting time for a child process to stop (sec)
+  "stopTimeout": 30,
+
+  // Size of the intermediate data transfer buffer. This buffer is used
+  // when receiving a request to transfer data to the client or in the case of a reboot
+  // process when sending data to the client, in order to quickly release the process.
+  // If the data size exceeds the set limit, then it is saved to disk.
+  "transmissionBufferSize": 1000000,
+
+
+  // The configuration of endpoints
+  "endpoints": [
+    {
+      // User under which FCF processes are started
+      //"user":            "www-data",
+
+      // Used only for Windows systems
+      //"password":        "",
+
+      // Length of the request queue
+      //"listenQueue": 128,
+
+      // Maximum waiting time for receiving and sending a client packet (sec)
+      //"clientSocketTimeout": 5,
+
+      // Maximum waiting time for receiving a request from the client (sec)
+      //"maxRequestTimeout": 300,
+
+      // Maximum waiting time for receiving and sending a server packet (sec)
+      //"serverSocketTimeout": 5,
+
+      // Maximum time to wait for a request to be sent from the server (sec)
+      //"maxRequestTimeout": 300,
+
+      // Maximum time to wait for a child process to start (sec)
+      //"startTimeout": 600,
+
+      // Maximum waiting time for a child process to stop (sec)
+      //"stopTimeout": 30,
+
+      // Size of the intermediate data transfer buffer. This buffer is used
+      // when receiving a request to transfer data to the client or in the case of a reboot
+      // process when sending data to the client, in order to quickly release the process.
+      // If the data size exceeds the set limit, then it is saved to disk.
+      //"transmissionBufferSize": 1000000,
+
+      // The server interface address for IPv4, if omitted, must contain the value "none" (string)
+      "bind4": "",
+
+      // The server interface address for IPv6, if omitted, must contain the value "none" (string)
+      "bind6": "::",
+
+      // Number of the listening port (int)
+      "port": 8080,
+
+      // Handler parameters
+      "handlers": [{
+
+        // Handler name
+        "name": "application",
+
+        // Maximum time to wait for a child process to start (sec)
+        //"startTimeout": 30,
+
+        // Maximum waiting time for a child process to stop (sec)
+        //"stopTimeout": 30,
+
+        // The host specified in the HTTP request that the handler will respond to. If omitted, it must contain an empty string. (string)
+        "host": "",
+
+        // URL the path specified in the HTTP request that the handler will respond to. If omitted, it must contain an empty string. (string)
+        "path": "",
+
+        // The number of concurrently running processes of handlers of constant work
+        // without protection of memory leaks. The minimum value 2 (int)
+        "processes": 1,
+
+        // The FCF app. JavaScript script to run (string)
+        "script": "fcf-example-moving-containers.js",
+
+        // An array of arrays containing arrays of NDOEJS options for each process
+        "nodeOptions": [[], [], [], []],
+
+        // Maximum allowable memory size used by a handler process for processes with memory leak protection
+        "maxMemory": 150,
+
+        // Array of control message transmission ports.
+        // The array is automatically filled up to the size specified in (process + processesLeakProtection) * 2,
+        // applying an increment if at least one port is specified.
+        // If the array is empty, then random free ports are used.
+        "dataPorts": []
+
+      }]
+
+    }
+  ]
+
+}
