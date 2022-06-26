@@ -40,7 +40,7 @@ fcf.module({
         if (this._destroy)
           return;
 
-        this.increment();
+        this.calcPosition();
         this.setPosition();
 
         setTimeout(()=>{
@@ -48,7 +48,7 @@ fcf.module({
         }, 30);
       }
 
-      increment(){
+      calcPosition(){
         let selfRect   = fcf.getRect(this.getDomElement());
         let ownerRect  = fcf.getRect(this.getParent().select(".moving-containers-view")[0]);
         let dx = Math.cos(this._radians) / 200;
@@ -68,6 +68,11 @@ fcf.module({
         this._y += dy;
       }
 
+      setPosition(){
+        let rect   = fcf.getRect(this.getParent().select(".moving-containers-view")[0]);
+        this.getDomElement().style.left = (this._x * rect.width + rect.left) + "px";
+        this.getDomElement().style.top = (this._y * rect.height + rect.top) + "px";
+      }
 
       calcColor(){
         let string = this.getArg("string");
@@ -93,12 +98,6 @@ fcf.module({
 
       setColor(){
         this.getDomElement().style.color = this._color;
-      }
-
-      setPosition(){
-        let rect   = fcf.getRect(this.getParent().select(".moving-containers-view")[0]);
-        this.getDomElement().style.left = (this._x * rect.width + rect.left) + "px";
-        this.getDomElement().style.top = (this._y * rect.height + rect.top) + "px";
       }
 
     };
