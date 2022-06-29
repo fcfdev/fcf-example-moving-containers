@@ -10,7 +10,6 @@ fcf.module({
         this._x        = 0;
         this._y        = 0;
         this._color    = "#000";
-        this.calcColor();
       }
 
       initialize() {
@@ -26,7 +25,7 @@ fcf.module({
       }
 
       onArgString(a_value, a_editor, a_ignoreRedrawing, a_innerCall, a_suffix){
-        this.calcColor();
+        this.setColor();
       }
 
       onClick(){
@@ -40,7 +39,6 @@ fcf.module({
         if (this._destroy)
           return;
 
-        this.calcPosition();
         this.setPosition();
 
         setTimeout(()=>{
@@ -48,7 +46,7 @@ fcf.module({
         }, 30);
       }
 
-      calcPosition(){
+      setPosition(){
         let selfRect   = fcf.getRect(this.getDomElement());
         let ownerRect  = fcf.getRect(this.getParent().select(".moving-containers-view")[0]);
         let dx = Math.cos(this._radians) / 200;
@@ -66,15 +64,13 @@ fcf.module({
         }
         this._x += dx;
         this._y += dy;
-      }
 
-      setPosition(){
         let rect   = fcf.getRect(this.getParent().select(".moving-containers-view")[0]);
         this.getDomElement().style.left = (this._x * rect.width + rect.left) + "px";
         this.getDomElement().style.top = (this._y * rect.height + rect.top) + "px";
       }
 
-      calcColor(){
+      setColor(){
         let string = this.getArg("string");
         if (string === undefined){
           this.getArg("string");
@@ -90,14 +86,11 @@ fcf.module({
         r = Math.floor(r % 255);
         g = Math.floor(g % 255);
         b = Math.floor(b % 255);
-        this._color = "#" +
-                      fcf.padStart(r.toString(16), 2, "0") +
-                      fcf.padStart(g.toString(16), 2, "0") +
-                      fcf.padStart(b.toString(16), 2, "0");
-      }
-
-      setColor(){
-        this.getDomElement().style.color = this._color;
+        let color = "#" +
+                    fcf.padStart(r.toString(16), 2, "0") +
+                    fcf.padStart(g.toString(16), 2, "0") +
+                    fcf.padStart(b.toString(16), 2, "0");
+        this.getDomElement().style.color = color;
       }
 
     };
