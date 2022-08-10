@@ -8,7 +8,7 @@ A case study of working with templates in the FCF framework
 It is recommended to use the latest version of FCF to run the example. As the framework is constantly evolving, the example can use the latest features.
 
 # Requirements
-For the example, a version of the FCF framework is required at least 1.1.50
+For the example, a version of the FCF framework is required at least 1.1.56
 
 # How to start
 1. Install FCF framework (https://fcf-framework.mywire.org/download/fcf/install)
