@@ -4,13 +4,17 @@
   // Default: undefined
   extends: ":templates/super/page.tmpl",
 
+  // An array of roles that have permission to access the template
+  // Default: ["*"]
+  // access: ["*"],
+
   // Automatic template update mode when the argument changes.
   // Acceptable values:
   //   true|"all" - The update is performed on any change
   //   "external" - The update is performed only if the external template was the initiator of the change.
   //   false      - The template is not being updated
   // Default: false
-  autoUpdate: false,
+  //autoUpdate: false,
 
   // If true, the rendering is performed on the client side.
   // Acceptable values:
@@ -21,32 +25,42 @@
   //   false        - Rendering is always done on the server side
   // This option can be overridden by the fcfClientRendering template argument, but only if the option is true.
   // Default: false
-  clientRendering: false,
+  //clientRendering: false,
 
   // Additional JS & CSS files to connect (JS files are also connected on the server side)
   // Default: []
-  include: [],
+  //include: [],
 
   // Plug-in additional JS & CSS files on the client side
   // Default: []
-  clientInclude: [],
+  //clientInclude: [],
 
   // If the parameter is false, the template is not wrapped in a container,
   // a wrapper is not created for it, and its arguments are not available on the client.
   // Default: true
-  wrapper: true,
+  //wrapper: true,
+
+  // DOM elements merge flag.
+  // If true, then existing items are not replaced when updated, but updated.
+  // Default: false
+  //merge: false,
+
+  // If set to true, the DOM elements are not changed by default when the template is updated.
+  // To update DOM elements on update, you need to call the update|reload|refresh methods with the updateStatic flag.
+  // Default: false
+  //static: false,
 
   // Saving the initial values of children template arguments.
   // This option can be overridden by the fcfInitialStorageOfChildren template argument.
   // Default: false
-  initialStorageOfChildren: false,
+  //initialStorageOfChildren: false,
 
   // The template is displayed when the template is locked or false,
   // then the lock is performed only by the transparent container.
   // If the option is true, then @controls:lock is used.
   // This option can be overridden by the fcfLockTemplate template argument.
   // Default: true
-  lockTemplate: true
+  //lockTemplate: true
 }
 
 //~ARGUMENTS body
@@ -55,4 +69,4 @@
 }
 
 //~TEMPLATE body
-@{{render.template(":templates/blocks/moving-containers.tmpl", {fcfId: "mc"})}}@
+@{{ render.template(":templates/blocks/moving-containers.tmpl"); }}@

@@ -40,7 +40,6 @@ fcf.module({
           return fcf.application.getSystemVariable("application:strings");
         },
       },
-
       //
       // Object of the hooks preprocessing of the template arguments
       //

@@ -7,15 +7,13 @@ fcf.module({
   lazy:         [],
   module: function() {
     return class Handler {
-      async receive(a_fields, a_files){
-        if (a_fields.strings) {
-          await fcf.application.setSystemVariable("application:strings", a_fields.strings);
+      async receive(a_data, a_files){
+        if (a_data.strings) {
+          await fcf.application.setSystemVariable("application:strings", a_data.strings);
         }
-
         if (a_files[0]) {
           await libUtil.promisify(libFS.copyFile)(a_files[0].path, fcf.getPath(":files/background.jpg"));
         }
-
       }
     }
   }

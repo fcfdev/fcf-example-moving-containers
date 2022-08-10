@@ -2,14 +2,13 @@ fcf.module({
   name:         "templates/blocks/moving-containers+view-item.wrapper.js",
   dependencies: ["fcf:NClient/Wrapper.js"],
   module: function(Wrapper){
-    return class WrapperEx extends Wrapper{
+    return class WrapperImpl extends Wrapper{
 
       constructor(a_initializeOptions){
         super(a_initializeOptions);
         this._radians  = Math.PI * Math.random() * 2;
         this._x        = 0;
         this._y        = 0;
-        this._color    = "#000";
       }
 
       initialize() {
@@ -24,11 +23,7 @@ fcf.module({
         return super.attach();
       }
 
-      onArgString(a_value, a_editor, a_ignoreRedrawing, a_innerCall, a_suffix){
-        this.setColor();
-      }
-
-      onClick(){
+      onClick(a_event){
         let string = this.getArg("string");
         string = string.split("").reverse().join("");
         this.setArg("string", string);
@@ -38,9 +33,7 @@ fcf.module({
         let self  = this;
         if (this._destroy)
           return;
-
         this.setPosition();
-
         setTimeout(()=>{
           self.timer();
         }, 30);
@@ -64,17 +57,13 @@ fcf.module({
         }
         this._x += dx;
         this._y += dy;
-
-        let rect   = fcf.getRect(this.getParent().select(".moving-containers-view")[0]);
+        let rect = fcf.getRect(this.getParent().select(".moving-containers-view")[0]);
         this.getDomElement().style.left = (this._x * rect.width + rect.left) + "px";
         this.getDomElement().style.top = (this._y * rect.height + rect.top) + "px";
       }
 
       setColor(){
         let string = this.getArg("string");
-        if (string === undefined){
-          this.getArg("string");
-        }
         let r = 0;
         let g = 0;
         let b = 0;

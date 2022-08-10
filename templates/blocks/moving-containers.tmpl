@@ -4,6 +4,10 @@
   // Default: undefined
   // extends:"<super_template.tmpl>",
 
+  // An array of roles that have permission to access the template
+  // Default: ["*"]
+  // access: ["*"],
+
   // Automatic template update mode when the argument changes.
   // Acceptable values:
   //   true|"all" - The update is performed on any change
@@ -11,7 +15,7 @@
   //   false      - The template is not being updated
   // This option can be overridden by the fcfAutoUpdate template argument.
   // Default: false
-  autoUpdate: false,
+  //autoUpdate: false,
 
   // If true, the rendering is performed on the client side.
   // Acceptable values:
@@ -22,7 +26,7 @@
   //   false        - Rendering is always done on the server side
   // This option can be overridden by the fcfClientRendering template argument, but only if the option is true.
   // Default: false
-  clientRendering: false,
+  //clientRendering: false,
 
   // Additional JS & CSS files to connect (JS files are also connected on the server side)
   // Default: []
@@ -30,62 +34,59 @@
 
   // Plug-in additional JS & CSS files on the client side
   // Default: []
-  clientInclude: [],
+  //clientInclude: [],
 
   // If the parameter is false, the template is not wrapped in a container,
   // a wrapper is not created for it, and its arguments are not available on the client.
   // Default: true
-  wrapper: true,
+  //wrapper: true,
 
   // DOM elements merge flag.
   // If true, then existing items are not replaced when updated, but updated.
   // Default: false
-  merge: false,
+  merge: true,
+
+  // If set to true, the DOM elements are not changed by default when the template is updated.
+  // To update DOM elements on update, you need to call the update|reload|refresh methods with the updateStatic flag.
+  // Default: false
+  //static: false,
 
   // Saving the initial values of children template arguments.
   // This option can be overridden by the fcfInitialStorageOfChildren template argument.
   // Default: false
-  initialStorageOfChildren: false,
+  //initialStorageOfChildren: false,
 
   // The template is displayed when the template is locked or false,
   // then the lock is performed only by the transparent container.
   // If the option is true, then @controls:lock is used.
   // This option can be overridden by the fcfLockTemplate template argument.
   // Default: true
-  lockTemplate: true
+  //lockTemplate: true
 }
 
 //~ARGUMENTS
 {
-  _strings:  fcf.argProg(),
-  _file:     undefined,
-  _modify:   false,
+   _strings:        fcf.argProg(),
+   _file:           fcf.argVal("/files/background.jpg?dump=@{{fcf.id()}}@"),
+   _reboundCounter: 0,
+   _modify:         false
 }
 
 //~TEMPLATE
-<div class="moving-containers-view">
+<div class="moving-containers-view" style="background-image: url(@{{args._file}}@);">
   <div class="moving-containers-view-info">
-    <div>
-      Rebound counter: <span name="rebound_counter">0</span>
-    </div>
-    <div>
-      Click counter: <span name="click_counter">0</span>
-    </div>
+    Rebound counter: <span name="rebound_counter">#{{args._reboundCounter}}#</span>
   </div>
-  <img src="/files/background.jpg" class="moving-containers-view-img"></img>
   %{{
     for(let i = 0; i < args._strings.length; ++i) {
   }}%
-    <p>
       @{{
         render.template(
           "+view-item",
           {
-            string:          fcf.argRef(`_strings[${i}]`),
-            fcfEventClick:   "parent.onClickString(event)",
-            fcfEventRebound: "parent.onReboundString(event)"
+            string: fcf.argRef(`_strings[${i}]`),
+            fcfEventRebound: "parent.setArg('_reboundCounter', parent.getArg('_reboundCounter')+1)"
           })}}@
-    </p>
   %{{
     }
   }}%
@@ -93,29 +94,28 @@
 
 <fieldset>
 <legend>Editor</legend>
-
 @{{
   render.template("@controls:tabs", {
-    tab: fcf.argUrl("tab"),
+    tab: fcf.argURL("tab", {default: "strings"}),
     items: fcf.argVal({
       strings: {
-        title: "Strings",
-        data: fcf.argTmpl("+strings", {strings: fcf.argRef("_strings")})
+        title:    "Strings",
+        content:  fcf.argTmpl("+strings", {strings: fcf.argRef("_strings")})
       },
       settings: {
-        title: "Settings",
-        data: fcf.argTmpl("+settings", {file: fcf.argRef("_file")})
+        title:    "Settings",
+        content:  fcf.argTmpl("+settings")
       }
     })
   });
 }}@
-
-<p>
-@{{ render.template("@controls:button", {title: fcf.t("Save"), enable: fcf.argRef("_modify"), fcfEventClick: "parent.onSave()"}); }}@
-@{{ render.template("@controls:button", {title: fcf.t("Cancel"), enable: fcf.argRef("_modify"), fcfEventClick: "parent.onCancel()"}); }}@
-</p>
-
 </fieldset>
+
+@{{ render.template("@controls:button", {title: fcf.t("Save"), enable: fcf.argRef("_modify"), fcfEventClick: "parent.onSave()"}); }}@
+@{{ render.template("@controls:button", {title: fcf.t("Reload"), enable: fcf.argRef("_modify"), fcfEventClick: "parent.reload()"}); }}@
+@{{ render.template("@controls:button", {title: fcf.t("Refresh"), enable: fcf.argRef("_modify"), fcfEventClick: "parent.refresh()"}); }}@
+
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~ SUB TEMPLATE view-item
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -128,20 +128,15 @@
 //~ARGUMENTS view-item
 {
   fcfClassInner: "moving-containers-view-item",
-  string:        fcf.argVal("", {undefinedValue: ""}),
+  string:        "",
 }
 
 //~TEMPLATE view-item
 @{{args.string}}@
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//~ SUB TEMPLATE strings
+//~ SUBTEMPLATE strings
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//~ARGUMENTS strings
-{
-  strings: fcf.argVal([], {undefinedValue: []}),
-}
-
 //~TEMPLATE strings
 %{{
   for(let i = 0; i < args.strings.length; ++i) {
@@ -161,17 +156,11 @@
 }}%
 @{{ render.template("@controls:button", {title: fcf.t("Add record"), fcfEventClick: "parent.getParent().getParent().onAddString()"}); }}@
 
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//~ SUB TEMPLATE settings
+//~ SUBTEMPLATE settings
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//~OPTIONS settings
-{
-  merge: true
-}
-
 //~TEMPLATE settings
 JPG background file:
 <p>
-<input type="file" fcfEventChange="parent.getParent().onFile()"></input>
+<input type="file" autocomplete="off" fcfEventChange="parent.getParent().onFile()"></input>
 </p>

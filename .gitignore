@@ -1,6 +1,3 @@
 /cache/[^.]*
 /log/[^.]*
 /sitemap/[^.]*
-/node_modules/[^.]*
-/package.json
-/package-lock.json

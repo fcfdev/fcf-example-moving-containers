@@ -3,10 +3,7 @@
   height: 200px;
   border-radius: 8px;
   overflow: hidden;
-}
-
-.moving-containers-view-img {
-  width: 100%;
+  background-size: cover;
 }
 
 .moving-containers-view-item{

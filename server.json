@@ -139,8 +139,17 @@
         // The FCF app. JavaScript script to run (string)
         "script": "fcf-example-moving-containers.js",
 
-        // An array of arrays containing arrays of NDOEJS options for each process
-        "nodeOptions": [[], [], [], []],
+        // An array containing of script options
+        "defaultOptions": [],
+
+        // An array containing of script options for each process configuration (with pair)
+        "options": [[], []],
+
+        // An array of arrays containing arrays of NODEJS options
+        "defaultNodeOptions": [],
+
+        // An array of arrays containing arrays of NODEJS options for each process configuration (with pair)
+        "nodeOptions": [[], []],
 
         // Maximum allowable memory size used by a handler process for processes with memory leak protection
         "maxMemory": 150,
